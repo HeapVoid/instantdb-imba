@@ -1,0 +1,17 @@
+{
+  "name": "insimba",
+  "version": "0.0.9",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/HeapVoid/instantdb-imba.git"
+  },
+  "main": "./index.imba",
+  "devDependencies": {
+    "imba": "latest",
+    "bimba-cli": "latest"
+  },
+  "description": "Unofficial wrapper for Instant DB client written in Imba that adds some missing functionality",
+  "keywords": ["imba", "instantdb"],
+  "license": "MIT",
+  "type": "module"
+}
