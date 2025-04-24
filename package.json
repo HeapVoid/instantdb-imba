@@ -1,6 +1,6 @@
 {
-  "name": "insimba",
-  "version": "0.0.9",
+  "name": "instantdb-imba",
+  "version": "0.1.1",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/HeapVoid/instantdb-imba.git"

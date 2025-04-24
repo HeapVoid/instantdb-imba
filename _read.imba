@@ -1,5 +1,3 @@
-import {prefold, postfold} from './_fold.imba'
-
 # --------------------------------------------------
 # Request information from the instant DB
 # Folding allows to connect one-to-one links as objects not arrays
@@ -18,11 +16,8 @@ export default def read connection, query, onsuccess, onerror, admin = false, fo
 	const namespace = Object.keys(query)[0]
 	
 	let result = []
-	let folds = []
 	try
-		prefold(query,folds) if folding
 		result = admin ? (await connection.query(query))[namespace] : (await connection.queryOnce(query)).data[namespace]
-		postfold(result,folds) if folding
 		onsuccess(result) if onsuccess isa Function
 	catch err
 		onerror(err) if onerror isa Function

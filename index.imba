@@ -1,6 +1,5 @@
 import read from './_read.imba'
 import write from './_write.imba'
-import {prefold, postfold} from './_fold.imba'
 import Auth from './_auth.imba'
 
 # ------------------------------------------
@@ -15,10 +14,10 @@ export class ServerIDB
 		connection = conn
 		uid = guid
 
-	def read query = {query:{}, onsuccess:undefined, onerror:undefined}
+	def read query = {query\Object: {}, onsuccess\Function: undefined, onerror\Function: undefined}
 		await read(connection,query.query,query.onsuccess,query.onerror,true,folding)
 	
-	def write records = {records:undefined, onsuccess:undefined, onerror:undefined}
+	def write records = {records: undefined, onsuccess\Function: undefined, onerror\Function: undefined}
 		await write(connection,records.records,records.onsuccess,records.onerror,uid)
 
 # ------------------------------------------
@@ -36,22 +35,21 @@ export class ClientIDB
 		uid = guid
 		auth = new Auth(connection, uid)
 
-	def read query = {query:{}, onsuccess:undefined, onerror:undefined}
+	def read query = {query\Object: {}, onsuccess\Function: undefined, onerror\Function: undefined}
 		await read(connection,query.query,query.onsuccess,query.onerror,false,folding)
 	
-	def write records = {records:undefined, onsuccess:undefined, onerror:undefined}
+	def write records = {records: undefined, onsuccess\Function: undefined, onerror\Function: undefined}
 		await write(connection,records.records,records.onsuccess,records.onerror,uid)
 
 	# set listener for db events
-	def subscribe options = {name:'', query:{}, onupdate:undefined, onerror:undefined}
+	def subscribe options = {name\String: '', query\Object: {}, onupdate\Function: undefined, onerror\Function: undefined}
 		subscriptions[options.name]! if subscriptions[options.name]
-		
-		let folds = []
-		prefold(options.query, folds)
 		
 		subscriptions[options.name] = connection.subscribeQuery options.query, do(response)
 			if response.error
 				options.onerror(response.error.message) if options.onerror isa Function
 			else
-				postfold(response.data, folds)
 				options.onupdate(response.data) if options.onupdate isa Function
+	
+	def unsubscribe name\String = ''
+		subscriptions[name]! if subscriptions[name]

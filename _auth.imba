@@ -10,22 +10,22 @@ export default class Auth
 	# ------------------------------------
 	# listen for changes in auth state
 	# ------------------------------------
-	def listen options = {onupdate:undefined, onerror:undefined}
+	def listen options = {onauth\Function: undefined, onerror\Function: undefined}
 		connection.subscribeAuth do(auth)
 			if auth.error 
-				options.onupdate(null) if options.onupdate isa Function
+				options.onauth(null) if options.onauth isa Function
 				options.onerror(auth.error.message) if options.onerror isa Function
 			elif !auth.user
-				options.onupdate(null) if options.onupdate isa Function
+				options.onauth(null) if options.onauth isa Function
 			elif auth.user
-				options.onupdate(auth.user) if options.onupdate isa Function
+				options.onauth(auth.user) if options.onauth isa Function
 			else
 				console.log 'Instant DB Error: something went wrong during listening for auth'
 
 	# ------------------------------------
 	# Send magic code to specified email
 	# ------------------------------------
-	def code options = {email:'', onsuccess:undefined, onerror:undefined}
+	def send options = {email\String: '', onsuccess\Function: undefined, onerror\Function: undefined}
 		if !options.email
 			if options.onerror isa Function
 				options.onerror!
@@ -34,7 +34,7 @@ export default class Auth
 			return false
 
 		try 
-			let res = await connection.auth.sendMagicCode({ email:options.email })
+			let res = await connection.auth.sendMagicCode({ email: options.email })
 			options.onsuccess(res) if options.onsuccess isa Function
 			return true
 		catch error
@@ -44,7 +44,7 @@ export default class Auth
 	# ------------------------------------
 	# login with a magic code
 	# ------------------------------------
-	def login options = {email:'', code:'', onsuccess:undefined, onerror:undefined}
+	def login options = {email\String: '', code\String: '', onsuccess\Function: undefined, onerror\Function: undefined}
 		if !options.email or !options.code
 			if options.onerror isa Function
 				options.onerror!
@@ -63,7 +63,7 @@ export default class Auth
 	# ------------------------------------
 	# logout user from the system
 	# ------------------------------------
-	def logout options = {onerror:undefined, onsuccess:undefined}
+	def logout options = {onerror\Function: undefined, onsuccess\Function: undefined}
 		try 
 			await connection.auth.signOut!
 			options.onsuccess! if options.onsuccess isa Function
