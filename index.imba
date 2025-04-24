@@ -14,11 +14,11 @@ export class ServerIDB
 		connection = conn
 		uid = guid
 
-	def read query = {query\Object: {}, onsuccess\Function: undefined, onerror\Function: undefined}
-		await read(connection,query.query,query.onsuccess,query.onerror,true,folding)
+	def read data = {query\Object: {}, onsuccess\Function: undefined, onerror\Function: undefined}
+		await read(connection,data.query,data.onsuccess,data.onerror,true)
 	
-	def write records = {records: undefined, onsuccess\Function: undefined, onerror\Function: undefined}
-		await write(connection,records.records,records.onsuccess,records.onerror,uid)
+	def write data = {records: undefined, onsuccess\Function: undefined, onerror\Function: undefined}
+		await write(connection,data.records,data.onsuccess,data.onerror,uid)
 
 # ------------------------------------------
 # Client working in the browser
@@ -35,11 +35,11 @@ export class ClientIDB
 		uid = guid
 		auth = new Auth(connection, uid)
 
-	def read query = {query\Object: {}, onsuccess\Function: undefined, onerror\Function: undefined}
-		await read(connection,query.query,query.onsuccess,query.onerror,false,folding)
+	def read data = {query\Object: {}, onsuccess\Function: undefined, onerror\Function: undefined}
+		await read(connection,data.query,data.onsuccess,data.onerror,false)
 	
-	def write records = {records: undefined, onsuccess\Function: undefined, onerror\Function: undefined}
-		await write(connection,records.records,records.onsuccess,records.onerror,uid)
+	def write data = {records: undefined, onsuccess\Function: undefined, onerror\Function: undefined}
+		await write(connection,data.records,data.onsuccess,data.onerror,uid)
 
 	# set listener for db events
 	def subscribe options = {name\String: '', query\Object: {}, onupdate\Function: undefined, onerror\Function: undefined}

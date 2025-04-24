@@ -3,7 +3,7 @@
 # Folding allows to connect one-to-one links as objects not arrays
 # --------------------------------------------------
 
-export default def read connection, query, onsuccess, onerror, admin = false, folding = true
+export default def read connection, query, onsuccess, onerror, admin = false
 	return if !connection or !query
 
 	if !Object.keys(query).length
